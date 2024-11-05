@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mern-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: mern-app
+    ports:
+      - "27017:27017"
+    volumes:
+      - mern-db:/data/db
+
+  backend:
+    build: .
+    container_name: mern-backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://root:example@mongo:27017/mern-app?authSource=admin
+    volumes:
+      - .:/usr/src/app        # Mount the current directory into the container for live reloading
+      - /usr/src/app/node_modules # Ensure node_modules is not overwritten
+    command: ["npm", "run", "dev"]  # Make sure you're using `npm run dev`
+
+volumes:
+  mern-db:  # Persistent volume for MongoDB data

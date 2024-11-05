@@ -1,11 +1,10 @@
-class User{
-    name = '';
-    email = '';
-    type = '';
-    constructor(name,email,type){
-        this.name = name,
-        this.email = email,
-        this.type = type
+const mongoose = require("mongoose");
+class User {
+    constructor(name, email, type) {
+        this.name = name;
+        this.email = email;
+        this.type = type;
     }
 }
-module.exports = "User"
+
+module.exports = User;  // Correctly export the class
